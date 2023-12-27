@@ -71,6 +71,7 @@ ADD COLUMN titre VARCHAR(50),
 ADD COLUMN code_livre INTEGER,
 ADD FOREIGN KEY (code_livre) REFERENCES livre(code_livre);
 
+ KNKJNJN
 
 
  
