@@ -72,6 +72,7 @@ ADD COLUMN code_livre INTEGER,
 ADD FOREIGN KEY (code_livre) REFERENCES livre(code_livre);
 
 
-
+select sum(code_exempl)as "مجموع الأمثلة",code_livre from livre natural join exemplaire 
+group by code_livre;
  
 
