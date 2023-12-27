@@ -37,9 +37,47 @@ create table emprunt(
 	date_retour_emprunt date);
 
 
----- Insertion d'abord
-insert into auteur values(
-	
-)
+
+-- Insertion dans la table "auteur"
+INSERT INTO auteur (nom_auteur) VALUES
+('ABAKHAR'),
+('ELHANSALI'),
+('NICOLAS MACHIAVEL'),
+('ÉRIC LAURENT'),
+;
+
+
+-- Insertion dans la table "emprunteur"
+INSERT INTO emprunteur (nom_emp, prenom_emp, adresse, etat_cot, date_inscription) VALUES
+('AIT SAID', 'AYOUBE', 'AGADIR TIKIOUINE', true, '2023-01-01'),
+('MOUAD', 'RGUIBI', 'CASABLANCA DERBSULTAN',true, '2023-01-02'),
+('HODAIFA', 'ELFASI', 'FES RAHMANIA ',false,'2023-01-03');
+
+
+
+-- Insertion dans la table "livre"
+INSERT INTO livre (code_auteur, date_editeur,nom_editeur,titre)VALUES
+(1,'2022-02-30',  'DAR ALMAARIFA','نعيم الجهل'),
+(2, '2022-08-03', 'DAR ALAAILME','جحيم المعرفة '),
+(3, '1532-01-01', 'none', 'كتاب الأمير ميكافيلي'),
+(4, '1993-01-01', 'none', 'ذاكرة ملك'),
+
+
+
+-- Insertion dans la table "exemplaire"
+INSERT INTO exemplaire (code_livre, valeur) VALUES
+(1, 10),
+(2, 15),
+(3, 20);
+
+
+
+-- Insertion dans la table "emprunt"
+INSERT INTO emprunt (code_emp, code_exempl, date_emprunt, date_retour_emprunt) VALUES
+(1, 1, '2023-01-01', '2023-01-15'),
+(2, 2, '2023-01-02', '2023-01-16'),
+(3, 3, '2023-01-03', '2023-01-17');
+
+
 
 
