@@ -79,5 +79,12 @@ INSERT INTO emprunt (code_emp, code_exempl, date_emprunt, date_retour_emprunt) V
 (3, 3, '2023-01-03', '2023-01-17');
 
 
+-- Assuming livre has a primary key named "code_livre"
+ALTER TABLE emprunt
+ADD COLUMN titre VARCHAR(50),
+ADD COLUMN code_livre INTEGER,
+ADD FOREIGN KEY (code_livre) REFERENCES livre(code_livre);
+
+
 
 
