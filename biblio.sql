@@ -71,7 +71,40 @@ ADD COLUMN titre VARCHAR(50),
 ADD COLUMN code_livre INTEGER,
 ADD FOREIGN KEY (code_livre) REFERENCES livre(code_livre);
 
+//last edit 
+SELECT DISTINCT livre.*
+FROM livre
+NATURAL JOIN exemplaire
+NATURAL JOIN emprunt
+WHERE emprunt.code_livre IS NULL;
 
+SELECT DISTINCT e.nom_emp, e.prenom_emp
+FROM emprunteur e
+NATURAL JOIN emprunt
+GROUP BY e.code_emp, e.nom_emp, e.prenom_emp
+HAVING COUNT(DISTINCT code_livre) = (
+    SELECT MAX(nombre_livres_empruntes)
+    FROM (
+        SELECT code_emp, COUNT(DISTINCT code_livre) AS nombre_livres_empruntes
+        FROM emprunt
+        GROUP BY code_emp
+    ) AS subquery
+);
+---5----------
+SELECT DISTINCT nom_emp
+FROM emprunteur
+NATURAL JOIN emprunt
+WHERE date_retour_emprunt IS NULL AND date_emprunt <= CURRENT_DATE;
+---6------
+SELECT titre_livre
+FROM livre l
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM emprunt e
+    JOIN exemplaire e2 ON e.id_exemplaire = e2.id_exemplaire
+    JOIN livre l2 ON e2.isbm = l2.isbm
+    WHERE l.titre_livre = l2.titre_livre
+);
 
  
 
