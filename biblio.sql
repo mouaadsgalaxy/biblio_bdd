@@ -1,3 +1,7 @@
+
+
+---------------1-----------------
+CREATE DATABASE biblio;
 ----------2-----------
 ---creation des tables
 create table auteur(
@@ -106,5 +110,96 @@ WHERE NOT EXISTS (
     WHERE l.titre_livre = l2.titre_livre
 );
 
- 
+----------------6.1-------------------------
+
+ SELECT livre.*
+FROM livre
+NATURAL JOIN emprunt
+WHERE livre.code_livre NOT IN (SELECT code_livre FROM emprunt);
+------------------------6.2-----------------------------------
+SELECT livre.*
+FROM livre
+NATURAL JOIN emprunt
+WHERE emprunt.code_livre IS NULL;
+
+
+------------------------------7--------------------------------------------------
+SELECT emprunteur.*
+FROM emprunteur
+NATURAL JOIN emprunt
+GROUP BY emprunteur.code_emp
+HAVING COUNT(emprunt.code_exempl) = (
+    SELECT MAX(nbr_exemplaire)
+    FROM (
+        SELECT code_emp, COUNT(code_exempl) AS nbr_exemplaire
+        FROM emprunt
+        GROUP BY code_emp
+    ) AS counts
+);
+------------------------------------------8--------------------------------------------
+
+SELECT code_livre, MAX(valeur) AS max_valeur
+FROM exemplaire
+NATURAL JOIN livre
+GROUP BY code_livre;
+
+------------------------------------9-----------------------------------------------
+
+
+-- Delete all data from the "emprunt" table
+DELETE FROM biblio.emprunt;
+
+-- Delete all data from the "exemplaire" table
+DELETE FROM biblio.exemplaire;
+
+-- Delete all data from the "livre" table
+DELETE FROM biblio.livre;
+
+-- Delete all data from the "emprunteur" table
+DELETE FROM biblio.emprunteur;
+
+-- Delete all data from the "auteur" table
+DELETE FROM biblio.auteur;
+
+
+-----------si vous souhaitez supprimer toutes les données et également supprimer les tables, vous pouvez utiliser une combinaison des instructions DELETE et DROP TABLE 
+-- Supprimer toutes les données de la table "emprunt"
+DELETE FROM biblio.emprunt;
+-- Répétez l'instruction DELETE ci-dessus pour les autres tables (exemplaire, livre, emprunteur, auteur)
+
+-- Supprimer la table "emprunt"
+DROP TABLE biblio.emprunt;
+-- Répétez l'instruction DROP TABLE ci-dessus pour les autres tables (exemplaire, livre, emprunteur, auteu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------10----------------------------------------------------
+
+DROP DATABASE biblio;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
