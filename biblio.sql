@@ -192,6 +192,95 @@ DROP DATABASE biblio;
 
 
 
+-----------------edit-----------------
+
+
+
+
+
+
+-------------more---------------------------------
+
+-- Insertion into the "auteur" table
+INSERT INTO auteur (nom_auteur) VALUES
+('عبد الله السعيد'),
+('فاطمة محمود'),
+('محمد عبد الرحمن'),
+('لمياء الزهراء');
+
+-- Insertion into the "emprunteur" table
+INSERT INTO emprunteur (nom_emp, prenom_emp, adresse, etat_cot, date_inscription) VALUES
+('أحمد مصطفى', 'محمود', 'الجيزة', true, '2023-02-10'),
+('ليلى', 'عبد الله', 'الرياض', true, '2023-03-20'),
+('محمد', 'علي', 'الدمام', false, '2023-04-15');
+
+-- Insertion into the "livre" table
+INSERT INTO livre (code_auteur, date_editeur, nom_editeur, titre) VALUES
+(1, '2023-05-01', 'دار الحكمة', 'فن البرمجة بلغة البايثون'),
+(2, '2023-06-15', 'دار المعرفة', 'علم الذكاء الاصطناعي'),
+(3, '2023-07-01', 'دار الكتب', 'الطريق إلى النجاح'),
+(4, '2023-08-10', 'دار النشر', 'مأساة الحب الحقيقي');
+
+-- Insertion into the "exemplaire" table
+INSERT INTO exemplaire (code_livre, valeur) VALUES
+(1, 30),
+(2, 15),
+(3, 25),
+(4, 10);
+
+-- Insertion into the "emprunt" table
+INSERT INTO emprunt (code_emp, code_exempl, date_emprunt, date_retour_emprunt) VALUES
+(1, 1, '2023-05-15', '2023-06-01'),
+(2, 2, '2023-06-20', '2023-07-05'),
+(3, 3, '2023-07-10', '2023-07-25');
+
+
+
+
+---------------------more2--------------------------------------------------------
+
+
+-- Insertion into the "auteur" table
+INSERT INTO auteur (nom_auteur) VALUES
+('سلمى ايت ناصر'),
+('علي الحلو'),
+('بنحمد عبد الله'),
+('محمد الناصري');
+
+-- Insertion into the "emprunteur" table
+INSERT INTO emprunteur (nom_emp, prenom_emp, adresse, etat_cot, date_inscription) VALUES
+('لمى محمد', 'علي', 'مراكش', true, '2023-02-10'),
+('حسن', 'فاطمة', 'تيزنيت', true, '2023-03-20'),
+('عبد الله', 'الشاري', 'قلعة مكونة', false, '2023-04-15');
+
+-- Insertion into the "livre" table
+INSERT INTO livre (code_auteur, date_editeur, nom_editeur, titre) VALUES
+(1, '2023-05-01', 'دار الحكمة', 'الألوان في الفنون التشكيلية'),
+(2, '2023-06-15', 'دار المعرفة', 'العمارة الإسلامية'),
+(3, '2023-07-01', 'دار الكتب', 'أحلام مستغانم - روائية جزائرية'),
+(4, '2023-08-10', 'دار النشر', 'الطائر المبكر يحصد الديدان');
+
+-- Insertion into the "exemplaire" table
+INSERT INTO exemplaire (code_livre, valeur) VALUES
+(1, 20),
+(2, 10),
+(3, 30),
+(4, 15);
+
+-- Insertion into the "emprunt" table
+INSERT INTO emprunt (code_emp, code_exempl, date_emprunt, date_retour_emprunt) VALUES
+(1, 1, '2023-05-15', '2023-06-01'),
+(2, 2, '2023-06-20', '2023-07-05'),
+(3, 3, '2023-07-10', '2023-07-25');
+
+
+
+
+
+------------------------------more 3--------------------------------------------------
+
+
+
 
 
 
