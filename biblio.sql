@@ -1,13 +1,8 @@
 
-
 ---------------1.creation la base de donnees biblio-----------------
 CREATE DATABASE biblio;
 
-
-----------2.la creation des tables -----------
-
-
-
+--------2.la creation des tables -----------
 ---la table auteur
 create table auteur(
 	code_auteur serial primary key not null,
@@ -93,6 +88,9 @@ INSERT INTO livre (code_auteur, date_editeur,nom_editeur,titre)VALUES
 (11, '2023-07-01', 'دار الكتب', 'أحلام مستغانم - روائية جزائرية'),
 (12, '2023-08-10', 'دار النشر', 'الطائر المبكر يحصد الديدان');
 
+-- Suppression des contraintes de clé étrangère
+ALTER TABLE emprunt DROP CONSTRAINT IF EXISTS emprunt_code_exempl_fkey;
+
 -- Insertion dans la table "exemplaire"
 INSERT INTO exemplaire (code_livre, valeur) VALUES
 (3, 70),
@@ -110,13 +108,14 @@ INSERT INTO exemplaire (code_livre, valeur) VALUES
 (8, 5),
 (11, 10),
 (12, 20),
-(13, 10),
+(12, 10),
 (9, 20),
 (7, 30),
 (5, 15),
 (10, 25),
-(14, 30),
-(14, 15);
+(12, 30),
+(12, 15);
+
 
 -- Insertion dans la table "emprunt"
 INSERT INTO emprunt (code_emp, code_exempl, date_emprunt, date_retour_emprunt) VALUES
@@ -132,13 +131,16 @@ INSERT INTO emprunt (code_emp, code_exempl, date_emprunt, date_retour_emprunt) V
 
 
 
-
 ALTER TABLE emprunt
 ADD COLUMN titre VARCHAR(50),
 ADD COLUMN code_livre INTEGER,
 ADD FOREIGN KEY (code_livre) REFERENCES livre(code_livre);
 
-//last edit 
+
+
+
+
+
 ---------3.calculer le nombre d'exemplaire par livre 
 --------le nombre d'exemplaire par livre
 
@@ -162,16 +164,18 @@ SELECT DISTINCT nom_emp
 FROM emprunteur
 NATURAL JOIN emprunt
 WHERE date_retour_emprunt IS NULL AND date_emprunt <= CURRENT_DATE;
----6.afficher les livres qui n'ont jamais ete empruntes------
-SELECT titre_livre
+
+---------6.afficher les livres qui n'ont jamais ete empruntes
+SELECT l.titre
 FROM livre l
 WHERE NOT EXISTS (
     SELECT 1
     FROM emprunt e
-    JOIN exemplaire e2 ON e.id_exemplaire = e2.id_exemplaire
-    JOIN livre l2 ON e2.isbm = l2.isbm
-    WHERE l.titre_livre = l2.titre_livre
+    JOIN exemplaire e2 ON e.code_exempl = e2.code_exempl
+    JOIN livre l2 ON e2.code_livre = l2.code_livre
+    WHERE l.titre = l2.titre
 );
+
 
 ---6.1  .afficher les livres qui n'ont jamais ete empruntes------
 
@@ -201,19 +205,6 @@ HAVING COUNT(emprunt.code_exempl) = (
 );
 
 
-----------------7.....jrb 7ta hadi wchoff lversion li 5dama :
-SELECT DISTINCT e.nom_emp, e.prenom_emp
-FROM emprunteur e
-NATURAL JOIN emprunt
-GROUP BY e.code_emp, e.nom_emp, e.prenom_emp
-HAVING COUNT(DISTINCT code_livre) = (
-    SELECT MAX(nombre_livres_empruntes)
-    FROM (
-        SELECT code_emp, COUNT(DISTINCT code_livre) AS nombre_livres_empruntes
-        FROM emprunt
-        GROUP BY code_emp
-    ) AS subquery
-);
 
 
 
@@ -244,31 +235,21 @@ DELETE FROM biblio.auteur;
 
 
 
------------si vous souhaitez supprimer toutes les données et également supprimer les tables, vous pouvez utiliser une combinaison des instructions DELETE et DROP TABLE 
--- Supprimer toutes les données de la table "emprunt"
-DELETE FROM biblio.emprunt;
--- meme instruction : DELETE ci-dessus pour les autres tables (exemplaire, livre, emprunteur, auteur)
+----------ou bien supprimer les tables avec son contenu 
 
--- Supprimer la table "emprunt"
-DROP TABLE biblio.emprunt;
--- la meme chose  ci-dessus pour les autres tables (exemplaire, livre, emprunteur, auteur)
-
+DROP TABLE IF EXISTS emprunt;
+DROP TABLE IF EXISTS exemplaire;
+DROP TABLE IF EXISTS livre;
+DROP TABLE IF EXISTS emprunteur;
+DROP TABLE IF EXISTS auteur;
 
 
 
-
-
-
-
-
-
-
-
-
-
----------------------------------------------------10.supprimer la base de donnee biblio----------------------------------------------------
+----------10.supprimer la base de donnee biblio----------------------------------------------------
 
 DROP DATABASE biblio;
+
+
 
 
 
