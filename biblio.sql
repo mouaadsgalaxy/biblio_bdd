@@ -1,14 +1,20 @@
 
 
----------------1-----------------
+---------------1.creation la base de donnees biblio-----------------
 CREATE DATABASE biblio;
-----------2-----------
----creation des tables
+
+
+----------2.la creation des tables -----------
+
+
+
+---la table auteur
 create table auteur(
 	code_auteur serial primary key not null,
 	nom_auteur varchar(20) not null
 );
 
+---la table emprunteur
 create table emprunteur(
 	code_emp serial primary key not null,
 	nom_emp varchar(20),
@@ -17,6 +23,7 @@ create table emprunteur(
 	etat_cot bool,
 	date_inscription date);
 
+---la table livre
 create table livre(
 	code_livre serial primary key ,
 	code_auteur integer,
@@ -25,12 +32,14 @@ create table livre(
 	nom_editeur varchar(30),
 	titre varchar(50));
 
+---la table exemplaire
 create table exemplaire(
 	code_exempl serial primary key,
 	code_livre integer,
 	foreign key (code_livre) references livre(code_livre),
 	valeur integer	);
 
+---la table emprunt
 create table emprunt(
 	num_emprunt serial primary key, --c'est le numero qui indique l'emprunt
 	code_emp integer,
@@ -40,35 +49,89 @@ create table emprunt(
 	date_emprunt date , --code emprunt 
 	date_retour_emprunt date);
 
+-------2.insertions des tables 
 
------INSERTION DANS LES TALBLES
 -- Insertion dans la table "auteur"
 INSERT INTO auteur (nom_auteur) VALUES
 ('ABAKHAR'),
 ('ELHANSALI'),
 ('NICOLAS MACHIAVEL'),
-('ÉRIC LAURENT');
+('ÉRIC LAURENT'),
+('عبد الله السعيد'),
+('فاطمة محمود'),
+('محمد عبد الرحمن'),
+('لمياء الزهراء'),
+('سلمى محمد'),
+('علي حسين'),
+('فاطمة عبد الله'),
+('محمد عبد الرحيم');
+
 -- Insertion dans la table "emprunteur"
 INSERT INTO emprunteur (nom_emp, prenom_emp, adresse, etat_cot, date_inscription) VALUES
 ('AIT SAID', 'AYOUBE', 'AGADIR TIKIOUINE', true, '2023-01-01'),
 ('MOUAD', 'RGUIBI', 'CASA DERBSULTAN',true, '2023-01-02'),
-('HODAIFA', 'ELFASI', 'FES RAHMANIA ',false,'2023-01-03');
+('HODAIFA', 'ELFASI', 'FES RAHMANIA ',false,'2023-01-03'),
+('أحمد مصطفى', 'محمود', 'الجيزة', true, '2023-02-10'),
+('ليلى', 'عبد الله', 'الرياض', true, '2023-03-20'),
+('محمد', 'علي', 'الدمام', false, '2023-04-15'),
+('لمى محمد', 'علي', 'جدة', true, '2023-02-10'),
+('حسن', 'فاطمة', 'الخبر', true, '2023-03-20'),
+('عبد الله', 'ليلى', 'المدينة المنورة', false, '2023-04-15');
+
 -- Insertion dans la table "livre"
 INSERT INTO livre (code_auteur, date_editeur,nom_editeur,titre)VALUES
 (1,'2022-02-01',  'DAR ALMAARIFA','نعيم الجهل'),
 (2, '2022-08-03', 'DAR ALAAILME','جحيم المعرفة '),
 (3, '1532-01-01', 'none', 'كتاب الأمير ميكافيلي'),
-(4, '1993-01-01', 'none', 'ذاكرة ملك');
+(4, '1993-01-01', 'none', 'ذاكرة ملك'),
+(5, '2023-05-01', 'دار الحكمة', 'فن البرمجة بلغة البايثون'),
+(6, '2023-06-15', 'دار المعرفة', 'علم الذكاء الاصطناعي'),
+(7, '2023-07-01', 'دار الكتب', 'الطريق إلى النجاح'),
+(8, '2023-08-10', 'دار النشر', 'مأساة الحب الحقيقي'),
+(9, '2023-05-01', 'دار الحكمة', 'الألوان في الفنون التشكيلية'),
+(10, '2023-06-15', 'دار المعرفة', 'العمارة الإسلامية'),
+(11, '2023-07-01', 'دار الكتب', 'أحلام مستغانم - روائية جزائرية'),
+(12, '2023-08-10', 'دار النشر', 'الطائر المبكر يحصد الديدان');
+
 -- Insertion dans la table "exemplaire"
 INSERT INTO exemplaire (code_livre, valeur) VALUES
 (3, 70),
 (3, 5),
-(3, 20);
+(3, 20),
+(1, 30),
+(2, 15),
+(3, 25),
+(4, 10),
+(1, 20),
+(2, 10),
+(3, 30),
+(4, 15),
+(6, 70),
+(8, 5),
+(11, 10),
+(12, 20),
+(13, 10),
+(9, 20),
+(7, 30),
+(5, 15),
+(10, 25),
+(14, 30),
+(14, 15);
+
 -- Insertion dans la table "emprunt"
 INSERT INTO emprunt (code_emp, code_exempl, date_emprunt, date_retour_emprunt) VALUES
 (1, 1, '2023-01-01', '2023-01-15'),
 (2, 2, '2023-01-02', '2023-01-16'),
-(3, 3, '2023-01-03', '2023-01-17');
+(3, 5, '2023-01-03', '2023-01-17'),
+(4, 5, '2023-05-15', '2023-06-01'),
+(5, 5, '2023-06-20', '2023-07-05'),
+(6, 6, '2023-07-10', '2023-07-25'),
+(7, 7, '2023-05-15', '2023-06-01'),
+(7, 8, '2023-06-20', '2023-07-05'),
+(7, 3, '2023-07-10', '2023-07-25');
+
+
+
 
 ALTER TABLE emprunt
 ADD COLUMN titre VARCHAR(50),
@@ -76,30 +139,30 @@ ADD COLUMN code_livre INTEGER,
 ADD FOREIGN KEY (code_livre) REFERENCES livre(code_livre);
 
 //last edit 
-SELECT DISTINCT livre.*
-FROM livre
-NATURAL JOIN exemplaire
-NATURAL JOIN emprunt
-WHERE emprunt.code_livre IS NULL;
+---------3.calculer le nombre d'exemplaire par livre 
+--------le nombre d'exemplaire par livre
 
-SELECT DISTINCT e.nom_emp, e.prenom_emp
-FROM emprunteur e
-NATURAL JOIN emprunt
-GROUP BY e.code_emp, e.nom_emp, e.prenom_emp
-HAVING COUNT(DISTINCT code_livre) = (
-    SELECT MAX(nombre_livres_empruntes)
-    FROM (
-        SELECT code_emp, COUNT(DISTINCT code_livre) AS nombre_livres_empruntes
-        FROM emprunt
-        GROUP BY code_emp
-    ) AS subquery
-);
----5----------
+SELECT livre.titre, COUNT(exemplaire.code_exempl) AS nombre_exemplaires
+FROM livre
+JOIN exemplaire ON livre.code_livre = exemplaire.code_livre
+GROUP BY livre.titre;
+
+--------4.quel livre a le plus petit valeur 
+
+
+SELECT livre.titre, MIN(exemplaire.valeur) AS plus_petit_valeur
+FROM livre
+JOIN exemplaire ON livre.code_livre = exemplaire.code_livre
+GROUP BY livre.titre
+ORDER BY plus_petit_valeur
+LIMIT 1;
+
+---5.A la date d'aujurd'hui ,afficher les noms des emprunteurs qui n'ont pas encore rendu leur livre----------
 SELECT DISTINCT nom_emp
 FROM emprunteur
 NATURAL JOIN emprunt
 WHERE date_retour_emprunt IS NULL AND date_emprunt <= CURRENT_DATE;
----6------
+---6.afficher les livres qui n'ont jamais ete empruntes------
 SELECT titre_livre
 FROM livre l
 WHERE NOT EXISTS (
@@ -110,20 +173,20 @@ WHERE NOT EXISTS (
     WHERE l.titre_livre = l2.titre_livre
 );
 
-----------------6.1-------------------------
+---6.1  .afficher les livres qui n'ont jamais ete empruntes------
 
  SELECT livre.*
 FROM livre
 NATURAL JOIN emprunt
 WHERE livre.code_livre NOT IN (SELECT code_livre FROM emprunt);
-------------------------6.2-----------------------------------
+------------------------6.2  afficher les livres qui n'ont jamais ete empruntes       -----------------------------------
 SELECT livre.*
 FROM livre
 NATURAL JOIN emprunt
 WHERE emprunt.code_livre IS NULL;
 
 
-------------------------------7--------------------------------------------------
+-----------7.afficher les emprunteurs qui ont emprunte le maximum des livres (des livres differents)--------------------------------------------------
 SELECT emprunteur.*
 FROM emprunteur
 NATURAL JOIN emprunt
@@ -136,40 +199,59 @@ HAVING COUNT(emprunt.code_exempl) = (
         GROUP BY code_emp
     ) AS counts
 );
-------------------------------------------8--------------------------------------------
+
+
+----------------7.....jrb 7ta hadi wchoff lversion li 5dama :
+SELECT DISTINCT e.nom_emp, e.prenom_emp
+FROM emprunteur e
+NATURAL JOIN emprunt
+GROUP BY e.code_emp, e.nom_emp, e.prenom_emp
+HAVING COUNT(DISTINCT code_livre) = (
+    SELECT MAX(nombre_livres_empruntes)
+    FROM (
+        SELECT code_emp, COUNT(DISTINCT code_livre) AS nombre_livres_empruntes
+        FROM emprunt
+        GROUP BY code_emp
+    ) AS subquery
+);
+
+
+
+------------------------------------------8.afficher l'exemplaire le plus chere pour chaque livre --------------------------------------------
 
 SELECT code_livre, MAX(valeur) AS max_valeur
 FROM exemplaire
 NATURAL JOIN livre
 GROUP BY code_livre;
 
-------------------------------------9-----------------------------------------------
+------------------------------------9.vider  le contenu de toutes les tables -----------------------------------------------
 
 
--- Delete all data from the "emprunt" table
+-- Supprimer toutes les données de la table "emprunt"
 DELETE FROM biblio.emprunt;
 
--- Delete all data from the "exemplaire" table
+-- Supprimer toutes les données de la table "exemplaire"
 DELETE FROM biblio.exemplaire;
 
--- Delete all data from the "livre" table
+-- Supprimer toutes les données de la table "livre"
 DELETE FROM biblio.livre;
 
--- Delete all data from the "emprunteur" table
+-- Supprimer toutes les données de la table "emprunteur"
 DELETE FROM biblio.emprunteur;
 
--- Delete all data from the "auteur" table
+-- Supprimer toutes les données de la table "auteur"
 DELETE FROM biblio.auteur;
+
 
 
 -----------si vous souhaitez supprimer toutes les données et également supprimer les tables, vous pouvez utiliser une combinaison des instructions DELETE et DROP TABLE 
 -- Supprimer toutes les données de la table "emprunt"
 DELETE FROM biblio.emprunt;
--- Répétez l'instruction DELETE ci-dessus pour les autres tables (exemplaire, livre, emprunteur, auteur)
+-- meme instruction : DELETE ci-dessus pour les autres tables (exemplaire, livre, emprunteur, auteur)
 
 -- Supprimer la table "emprunt"
 DROP TABLE biblio.emprunt;
--- Répétez l'instruction DROP TABLE ci-dessus pour les autres tables (exemplaire, livre, emprunteur, auteu
+-- la meme chose  ci-dessus pour les autres tables (exemplaire, livre, emprunteur, auteur)
 
 
 
@@ -184,20 +266,9 @@ DROP TABLE biblio.emprunt;
 
 
 
----------------------------------------------------10----------------------------------------------------
+---------------------------------------------------10.supprimer la base de donnee biblio----------------------------------------------------
 
 DROP DATABASE biblio;
-
-
-
-
-
-
-
-
-
-
-
 
 
 
